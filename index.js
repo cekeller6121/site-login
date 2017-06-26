@@ -24,8 +24,8 @@ function authentiKate(req, username, password, res) {
   var authentiKated = userFile.users.find(function (user) {
   if (username === user.username && password === user.password) {
     console.log("user authenticated.")
+    req.session.authentiKated = true;
     res.render('index');
-    authentiKated = true;
   } else {
     console.log("access denied, brah")
     res.send("access denied, brah")
@@ -34,10 +34,10 @@ function authentiKate(req, username, password, res) {
 };
 
 app.get('/', function(req, res) {
-  if (authentiKated === true) {
+  if (req.session.authentiKated === true) {
     res.render('index')
   } else {
-    res.render('login')
+    res.redirect('login')
   }
 });
 
